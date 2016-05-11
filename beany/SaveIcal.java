@@ -5,6 +5,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -118,25 +121,16 @@ public class SaveIcal {
 	 * @param event the event
 	 * @return the string
 	 */
-	@SuppressWarnings("deprecation")
 
-	private String dateParse(Event event) {
-		StringBuilder date = new StringBuilder();
-		String str;
-		int year = event.getStartDate().getYear()+1900;
-		int month = event.getStartDate().getMonth() +1;
-		int day = event.getStartDate().getDate();
-		int hour = event.getStartDate().getHours();
-		int minutes = event.getStartDate().getMinutes();
-		//date.append(year+month+day+"T"+hour+minutes+"00"+"\r\n");
-		date.append(year);
-		date.append(month);
-		date.append(day+"T");
-		date.append(hour);
-		date.append(minutes+"00"+"\r\n");
-		str = date.toString();
-		System.out.println(date);
-		return str;
+	private String dateParse(Event event) {	
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMdd");
+		String formated = format1.format(event.getStartDate());
+		formated +="T";
+		format1 = new SimpleDateFormat("HHmmss");
+		formated += format1.format(event.getStartDate());
+		formated += "\r\n";
+		System.out.println(formated);
+		return formated;
 	}
-
+	
 }
