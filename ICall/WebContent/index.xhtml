@@ -16,36 +16,38 @@
 			<legend>Generator</legend>
 
 
-			<h:commandButton value="NEW" action="#{eventBean.add()}" />
+			<h:commandButton id="new" value="NEW" type="button" styleClass="ui-mini" />
 			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />
-			<br />
-			<br />
-			
-			<p:outputLabel for="title" value="Title:"/>
-			<p:inputText id="title" value="#{eventBean.event.title}" />
-			
-			<br />
-			<br />
-			
-			<p:outputLabel for="description" value="Description:" />
-			<p:inputText id="description" value="#{eventBean.event.description}" />
-			
-			<br />
-			<br />
+			<p:overlayPanel id="PANEL" for="new" hideEffect="fade" dynamic="true"
+				style="width:700">
 
-			<p:outputLabel for="StartDateTime" value="Start datetime:" />
-			<p:calendar id="StartDateTime" value="#{eventBean.event.startDate}"
-				pattern="MM/dd/yyyy HH:mm" />
-			<br />
-			<br />
-			
-			<p:outputLabel for="EndDateTime" value="End datetime:" />
-			<p:calendar id="EndDateTime" value="#{eventBean.event.endDate}"
-				pattern="MM/dd/yyyy HH:mm" />
-				
-			<br />
-			<br />
-			
+
+
+				<p:outputLabel for="title" value="Title:">
+					<p:inputText id="title" value="#{eventBean.event.title}"
+						required="true" />
+				</p:outputLabel>
+				<br />
+
+				<p:outputLabel for="description" value="Description:">
+					<p:inputText id="description"
+						value="#{eventBean.event.description}" maxlength="200"/>
+				</p:outputLabel>
+				<br />
+
+				<p:outputLabel for="StartDateTime" value="Start datetime:">
+					<p:calendar id="StartDateTime" value="#{eventBean.event.startDate}"
+						pattern="MM/dd/yyyy HH:mm" required="true" />
+				</p:outputLabel>
+				<br />
+				<p:outputLabel for="EndDateTime" value="End datetime:">
+					<p:calendar id="EndDateTime" value="#{eventBean.event.endDate}"
+						pattern="MM/dd/yyyy HH:mm" required="true" />
+				</p:outputLabel>
+				<br />
+				<h:commandButton action="#{eventBean.add()}" value="Add event" />
+			</p:overlayPanel>
+
 		</fieldset>
 
 		<p:outputPanel id="events">
