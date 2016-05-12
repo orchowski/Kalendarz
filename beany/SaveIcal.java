@@ -7,14 +7,17 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import klasy.Event;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class SaveIcal.
+ * 
  * @author Krav(Przemys³aw Krawczel)
  */
 @ManagedBean
@@ -57,9 +60,6 @@ public class SaveIcal {
 	/**
 	 * Instantiates a new save ical.
 	 */
-	public SaveIcal() {
-		final int consta = 0;
-	}
 
 	/**
 	 * Save.
@@ -84,8 +84,7 @@ public class SaveIcal {
 		boolean isEmpty1;
 		if (events.isEmpty()) {
 			isEmpty1 = true;
-			System.out.println("There is nothing to save.");
-
+			info();
 		} else {
 			isEmpty1 = false;
 		}
@@ -100,9 +99,8 @@ public class SaveIcal {
 	 *            the events
 	 */
 	private void saveToFile(final List<Event> events) {
-		final StringBuilder fileIcal = new StringBuilder();
-		fileIcal.append("ical.ics");
-		final File file = new File("D:/ical.ics");
+		// final File file = new File("ical/src/main/webapp/ical.ics");
+		final File file = new File("/src/main/resources/ical.ics");
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -133,8 +131,7 @@ public class SaveIcal {
 			buf.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Problem z plikiem");
 		}
 
 	}
@@ -142,7 +139,8 @@ public class SaveIcal {
 	/**
 	 * Gets the title.
 	 *
-	 * @param event the event
+	 * @param event
+	 *            the event
 	 * @return the title
 	 */
 	private String getTitle(final Event event) {
@@ -152,7 +150,8 @@ public class SaveIcal {
 	/**
 	 * Gets the description.
 	 *
-	 * @param event the event
+	 * @param event
+	 *            the event
 	 * @return the description
 	 */
 	private String getDescription(final Event event) {
@@ -184,4 +183,8 @@ public class SaveIcal {
 		return formated.toString();
 	}
 
+	public void info() {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "There is nothing to save"));
+	}
 }
