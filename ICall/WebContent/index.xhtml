@@ -11,17 +11,17 @@
 <h:head>
 </h:head>
 <h:body>
-	<h:form>
-		<fieldset>
+
+	<fieldset>
+		<h:form id="adding">
 			<legend>Generator</legend>
 
-
-			<h:commandButton id="new" value="NEW" type="button" styleClass="ui-mini" />
+			<h:commandButton id="new" value="NEW" type="button"
+				styleClass="ui-mini" />
 			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />
+
 			<p:overlayPanel id="PANEL" for="new" hideEffect="fade" dynamic="true"
-				style="width:700">
-
-
+				style="width:600px;height:350px">
 
 				<p:outputLabel for="title" value="Title:">
 					<p:inputText id="title" value="#{eventBean.event.title}"
@@ -31,7 +31,7 @@
 
 				<p:outputLabel for="description" value="Description:">
 					<p:inputText id="description"
-						value="#{eventBean.event.description}" maxlength="200"/>
+						value="#{eventBean.event.description}" maxlength="200" />
 				</p:outputLabel>
 				<br />
 
@@ -40,16 +40,22 @@
 						pattern="MM/dd/yyyy HH:mm" required="true" />
 				</p:outputLabel>
 				<br />
+
 				<p:outputLabel for="EndDateTime" value="End datetime:">
 					<p:calendar id="EndDateTime" value="#{eventBean.event.endDate}"
 						pattern="MM/dd/yyyy HH:mm" required="true" />
 				</p:outputLabel>
 				<br />
-				<h:commandButton action="#{eventBean.add()}" value="Add event" />
+
+				<h:commandButton action="#{eventBean.add()}" value="Add event">
+					<!--  	<p:ajax update="viewing" /> -->
+				</h:commandButton>
+
 			</p:overlayPanel>
+		</h:form>
+	</fieldset>
 
-		</fieldset>
-
+	<h:form id="viewing">
 		<p:outputPanel id="events">
 			<p:dataTable value="#{eventBean.events}" var="event" id="eventsTable">
 
@@ -90,6 +96,7 @@
 				<p:column headerText="Action">
 					<h:commandButton value="remove" action="#{eventBean.remove(event)}" />
 					<h:commandButton action="#{eventBean.edit(event)}" value="edit" />
+					<h:commandButton action="#{eventBean.copy(event)}" value="copy" />
 					<h:commandButton action="#{eventBean.saveAction()}"
 						value="Save changes" />
 				</p:column>
