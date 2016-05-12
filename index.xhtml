@@ -15,38 +15,41 @@
 		<fieldset>
 			<legend>Generator</legend>
 
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			<h:commandButton id="new" value="NEW" type="button" styleClass="ui-mini" />
+			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />					
+			<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+  		  	   <f:actionListener binding="#{saveIcal.save(eventBean.getEvents())}" />
+    		   	<p:fileDownload value="#{fileDownload.file}" />
+    		 </p:commandButton>
+			
+			
+			
 
-			<h:commandButton value="NEW" action="#{eventBean.add()}" />
-			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />
-			<h:commandButton value="SAVE" action="#{saveIcal.save(eventBean.getEvents())}" />
-			<br />
-			<br />
-			
-			<p:outputLabel for="title" value="Title:"/>
-			<p:inputText id="title" value="#{eventBean.event.title}" />
-			
-			<br />
-			<br />
-			
-			<p:outputLabel for="description" value="Description:" />
-			<p:inputText id="description" value="#{eventBean.event.description}" />
-			
-			<br />
-			<br />
+			<p:overlayPanel id="PANEL" for="new" hideEffect="fade" dynamic="true" style="width:700">
+				<p:outputLabel for="title" value="Title:">
+					<p:inputText id="title" value="#{eventBean.event.title}"
+						required="true" />
+				</p:outputLabel>
+				<br />
+				<p:outputLabel for="description" value="Description:">
+					<p:inputText id="description"
+						value="#{eventBean.event.description}" maxlength="200"/>
+				</p:outputLabel>
+				<br />
+				<p:outputLabel for="StartDateTime" value="Start datetime:">
+					<p:calendar id="StartDateTime" value="#{eventBean.event.startDate}"
+						pattern="MM/dd/yyyy HH:mm" required="true" />
+				</p:outputLabel>
+				<br />
+				<p:outputLabel for="EndDateTime" value="End datetime:">
+					<p:calendar id="EndDateTime" value="#{eventBean.event.endDate}"
+						pattern="MM/dd/yyyy HH:mm" required="true" />
+				</p:outputLabel>
+				<br />
+				<h:commandButton action="#{eventBean.add()}" value="Add event" />
+			</p:overlayPanel>
 
-			<p:outputLabel for="StartDateTime" value="Start datetime:" />
-			<p:calendar id="StartDateTime" value="#{eventBean.event.startDate}"
-				pattern="MM/dd/yyyy HH:mm" />
-			<br />
-			<br />
-			
-			<p:outputLabel for="EndDateTime" value="End datetime:" />
-			<p:calendar id="EndDateTime" value="#{eventBean.event.endDate}"
-				pattern="MM/dd/yyyy HH:mm" />
-				
-			<br />
-			<br />
-			
 		</fieldset>
 
 		<p:outputPanel id="events">
