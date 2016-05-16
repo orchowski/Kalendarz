@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- @Author Wenaro -->
+
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<fieldset>
+			<legend>Generator</legend>
+
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			<h:commandButton id="new" value="NEW" type="button" styleClass="ui-mini" onclick="PF('dlg').show();" title="New Event" />
+			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />					
+			<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+  		  	   <f:actionListener binding="#{saveIcal.save(eventBean.getEvents())}" />
+    		   	<p:fileDownload value="#{fileDownload.file}" />
+    		 </p:commandButton>
+			
+			
+			
+
+			
+
+
+
+
+			<p:dialog header="New Event" widgetVar="dlg" resizable="false">
+				<p:outputLabel for="title" value="Title:">
+					<p:inputText id="title" value="#{eventBean.event.title}"
+						required="true" />
+				</p:outputLabel>
+				<br />
+				<p:outputLabel for="description" value="Description:">
+					<p:inputText id="description"
+						value="#{eventBean.event.description}" maxlength="200" />
+				</p:outputLabel>
+				<br />
+				<p:outputLabel for="StartDateTime" value="Start datetime:">
+					<p:calendar id="StartDateTime" value="#{eventBean.event.startDate}"
+						pattern="MM/dd/yyyy HH:mm" required="true" />
+				</p:outputLabel>
+				<br />
+				<p:outputLabel for="EndDateTime" value="End datetime:">
+					<p:calendar id="EndDateTime" value="#{eventBean.event.endDate}"
+						pattern="MM/dd/yyyy HH:mm" required="true" />
+				</p:outputLabel>
+				<br />
+				<h:commandButton action="#{eventBean.add()}" value="Add event" />
+			</p:dialog>
+
+		</fieldset>
+
+		<p:outputPanel id="events">
+			<p:dataTable value="#{eventBean.events}" var="event" id="eventsTable">
+
+				<p:column headerText="Title">
+					<h:inputText value="#{event.title}" size="10"
+						rendered="#{event.editable}" />
+					<h:outputText value="#{event.title}"
+						rendered="#{not event.editable}" />
+				</p:column>
+
+				<p:column headerText="Description">
+					<h:inputText value="#{event.description}" size="10"
+						rendered="#{event.editable}" />
+					<h:outputText value="#{event.description}"
+						rendered="#{not event.editable}" />
+				</p:column>
+
+				<p:column headerText="DateStart">
+					<f:facet name="datastart">
+						<h:outputText value="DateStart" />
+					</f:facet>
+					<p:calendar value="#{event.startDate}" size="10"
+						rendered="#{event.editable}" pattern="MM/dd/yyyy HH:mm" />
+					<h:outputText value="#{event.startDate}"
+						rendered="#{not event.editable}" />
+				</p:column>
+
+				<p:column headerText="DateEnd">
+					<f:facet name="dataend">
+						<h:outputText value="DateEnd" />
+					</f:facet>
+					<p:calendar value="#{event.endDate}" size="10"
+						rendered="#{event.editable}" pattern="MM/dd/yyyy HH:mm" />
+					<h:outputText value="#{event.endDate}"
+						rendered="#{not event.editable}" />
+				</p:column>
+
+				<p:column headerText="Action">
+					<h:commandButton value="remove" action="#{eventBean.remove(event)}" />
+					<h:commandButton action="#{eventBean.edit(event)}" value="edit" />
+					<h:commandButton action="#{eventBean.saveAction()}"
+						value="Save changes" />
+				</p:column>
+
+			</p:dataTable>
+		</p:outputPanel>
+	</h:form>
+</h:body>
+</html>
