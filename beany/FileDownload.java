@@ -12,16 +12,25 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 
+/**
+ * @author Krav(Przemys³aw Krawczel)
+ * The Class FileDownload.
+ */
 @ManagedBean
 public class FileDownload {
 
-	private StreamedContent file;
+	/** The file. */
+	private transient StreamedContent file;
 
+	/**
+	 * Instantiates a new file download.
+	 */
 	public FileDownload() {
 
 		InputStream stream;
 		try {
-			stream = new FileInputStream("/src/main/resources/ical.ics");
+			//stream = new FileInputStream("/var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/ical.ics");
+			stream = new FileInputStream("/ical.ics");
 			file = new DefaultStreamedContent(stream, "/ical", "ical.ics");
 		} catch (FileNotFoundException e) {
 			info();
@@ -29,10 +38,18 @@ public class FileDownload {
 		
 	}
 
+	/**
+	 * Gets the file.
+	 *
+	 * @return the file
+	 */
 	public StreamedContent getFile() {
 		return file;
 	}
 
+	/**
+	 * Info.
+	 */
 	private void info() {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Event list is empty"));
