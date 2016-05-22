@@ -19,7 +19,7 @@ import klasy.Event;
 /**
  * The Class SaveIcal.
  * 
- * @author Krav(Przemys³aw Krawczel)
+ * @author Krav(PrzemysÂ³aw Krawczel)
  */
 @ManagedBean
 @SessionScoped
@@ -65,9 +65,9 @@ public class SaveIcal {
 	 * @param events
 	 *            the events
 	 */
-	public void save(final List<Event> events) {
+	public void save(final List<Event> events,final String path) {
 		if (!isEventEmpty(events)) {
-			saveToFile(events);
+			saveToFile(events, path);
 		}
 	}
 
@@ -95,10 +95,12 @@ public class SaveIcal {
 	 *
 	 * @param events
 	 *            the events
+	 * @return 
 	 */
-	private void saveToFile(final List<Event> events) {
+	public File saveToFile(final List<Event> events,final String path) {
 		// final File file = new File("ical/src/main/webapp/ical.ics");
-		final File file = new File("/src/main/resources/ical.ics");
+		///final File file = new File("/src/main/resources/ical.ics");
+		final File file = new File(path);
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -128,7 +130,7 @@ public class SaveIcal {
 		} catch (IOException e) {
 			System.out.println("Problem z plikiem");
 		}
-
+		return file;
 	}
 
 	/**
