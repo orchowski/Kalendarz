@@ -19,7 +19,7 @@ import klasy.Event;
 /**
  * The Class SaveIcal.
  * 
- * @author Krav(Przemys³aw Krawczel)
+ * @author Krav(Przemysław Krawczel)
  */
 @ManagedBean
 @SessionScoped
@@ -57,13 +57,9 @@ public class SaveIcal {
 
 	/**
 	 * Instantiates a new save ical.
-	 */
-
-	/**
-	 * Save.
 	 *
-	 * @param events
-	 *            the events
+	 * @param events the events
+	 * @param path the path
 	 */
 	public void save(final List<Event> events,final String path) {
 		if (!isEventEmpty(events)) {
@@ -71,14 +67,15 @@ public class SaveIcal {
 		}
 	}
 
+	
+	
 	/**
 	 * Checks if is event empty.
 	 *
-	 * @param events
-	 *            the events
+	 * @param events the events
 	 * @return true, if is event empty
 	 */
-	private boolean isEventEmpty(final List<Event> events) {
+	public boolean isEventEmpty(final List<Event> events) {
 		boolean isEmpty1;
 		if (events.isEmpty()) {
 			isEmpty1 = true;
@@ -93,9 +90,9 @@ public class SaveIcal {
 	/**
 	 * Save to file.
 	 *
-	 * @param events
-	 *            the events
-	 * @return 
+	 * @param events the events
+	 * @param path the path
+	 * @return the file
 	 */
 	public File saveToFile(final List<Event> events,final String path) {
 		// final File file = new File("ical/src/main/webapp/ical.ics");
@@ -161,7 +158,7 @@ public class SaveIcal {
 	 * @param startOrEnd the start or end of date
 	 * @return the string
 	 */
-	private String dateParse(final Event event, final boolean startOrEnd) {
+	public String dateParse(final Event event, final boolean startOrEnd) {
 		final StringBuilder formated = new StringBuilder();
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
 		if (startOrEnd) {
