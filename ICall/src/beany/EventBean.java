@@ -24,48 +24,38 @@ public class EventBean implements Serializable {
 	/** The event. */
 	private Event event;
 	
+	//private boolean isOnList;
+	
 	/** The events. */
 	private List<Event> events;
-
+	
+	/** The deleted. */
+	private boolean deleted;
+	
 	/**
 	 * Inits the event and events.
 	 */
 	@PostConstruct
 	public void init() {
+		
 		event = new Event();
 		events = new ArrayList<Event>();
 	}
 	
 	/**
-	 * Contain.
-	 *
-	 * @return true, if successful
-	 */
-	public boolean contain() {
-		boolean isOnList = false;
-		for (Event eventf : events) {
-			isOnList = event.getTitle().equals(eventf.getTitle());
-		}
-		return isOnList;
-	}
-
-
-	/**
 	 * Adds the event.
 	 */
 	public void add() {
-		if (contain()) {
-			clearEvent();
-		} else {
+
 			events.add(event);
 			clearEvent();
-		}
 	}
 
 	/**
 	 * Clear event.
 	 */
 	public void clearEvent() {
+		
 		event = new Event();
 	}
 	
@@ -73,27 +63,29 @@ public class EventBean implements Serializable {
 	 * Clear list of events.
 	 */
 	public void clear() {
+		
 		events.removeAll(events);
 	}
 
+	
 	/**
-	 * Removes the event.
+	 * Removes the.
 	 *
 	 * @param event the event
-	 * @return the string
 	 */
 	public void remove(Event event) {
-		events.remove(event);
+		
+		events.remove(event);	
 	}
 
 	/**
 	 * Save action.
 	 */
 	public void saveAction() {
+		
 		for (Event event : events) {
 			event.setEditable(false);
-		}
-		
+		}	
 	}
 
 	/**
@@ -102,6 +94,7 @@ public class EventBean implements Serializable {
 	 * @param event the event
 	 */
 	public void edit(Event event) {
+		
 		event.setEditable(true);
 	}
 
@@ -111,6 +104,7 @@ public class EventBean implements Serializable {
 	 * @param event the event
 	 */
 	public void copy(Event event){
+		
 		events.add(new Event(event));
 	}
 	
@@ -120,6 +114,7 @@ public class EventBean implements Serializable {
 	 * @return the event
 	 */
 	public Event getEvent() {
+		
 		return event;
 	}
 
@@ -129,6 +124,7 @@ public class EventBean implements Serializable {
 	 * @return the events
 	 */
 	public List<Event> getEvents() {
+		
 		return events;
 	}
 
@@ -138,6 +134,7 @@ public class EventBean implements Serializable {
 	 * @param event the new event
 	 */
 	public void setEvent(Event event) {
+		
 		this.event = event;
 	}
 
@@ -147,6 +144,27 @@ public class EventBean implements Serializable {
 	 * @param events the new events
 	 */
 	public void setEvents(List<Event> events) {
+		
 		this.events = events;
+	}
+
+	/**
+	 * Checks if is deleted.
+	 *
+	 * @return true, if is deleted
+	 */
+	public boolean isDeleted() {
+		
+		return deleted;
+	}
+
+	/**
+	 * Sets the deleted.
+	 *
+	 * @param deleted the new deleted
+	 */
+	public void setDeleted(boolean deleted) {
+		
+		this.deleted = deleted;
 	}
 }

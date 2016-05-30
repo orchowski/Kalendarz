@@ -24,8 +24,6 @@ public class Event {
 	/** The editable. */
 	private boolean editable;
 
-	
-	
 	/**
 	 * Instantiates a new event.
 	 */
@@ -35,41 +33,48 @@ public class Event {
 		setEndDate(getEndDate());
 		setDescription(getDescription());
 	}
-	
+
 	/**
 	 * Instantiates a new event.
 	 *
-	 * @param event the event
+	 * @param event
+	 *            the event
 	 */
 	public Event(Event event) {
+
 		setTitle(event.title);
 		setStartDate(event.getStartDate());
 		setEndDate(event.getEndDate());
 		setDescription(event.getDescription());
 	}
-	
+
 	/**
 	 * Instantiates a new event.
 	 *
-	 * @param eventTitle the event title
-	 * @param dateStart the date start
-	 * @param dateEnd the date end
-	 * @param description the description
+	 * @param eventTitle
+	 *            the event title
+	 * @param dateStart
+	 *            the date start
+	 * @param dateEnd
+	 *            the date end
+	 * @param description
+	 *            the description
 	 */
-	public Event(String eventTitle, Date dateStart, Date dateEnd,
-			String description){
+	public Event(String eventTitle, Date dateStart, Date dateEnd, String description) {
+
 		setTitle(eventTitle);
 		setStartDate(dateStart);
 		setEndDate(dateEnd);
 		setDescription(description);
 	}
-	
+
 	/**
 	 * Gets the title.
 	 *
 	 * @return the title
 	 */
 	public String getTitle() {
+
 		return title;
 	}
 
@@ -80,6 +85,7 @@ public class Event {
 	 *            the new title
 	 */
 	public void setTitle(String title) {
+
 		this.title = title;
 	}
 
@@ -89,6 +95,7 @@ public class Event {
 	 * @return the start date
 	 */
 	public Date getStartDate() {
+
 		return startDate;
 	}
 
@@ -99,6 +106,7 @@ public class Event {
 	 *            the new start date
 	 */
 	public void setStartDate(Date startDate) {
+
 		this.startDate = startDate;
 	}
 
@@ -108,6 +116,7 @@ public class Event {
 	 * @return the end date
 	 */
 	public Date getEndDate() {
+
 		return endDate;
 	}
 
@@ -118,6 +127,7 @@ public class Event {
 	 *            the new end date
 	 */
 	public void setEndDate(Date endDate) {
+
 		this.endDate = endDate;
 	}
 
@@ -127,6 +137,7 @@ public class Event {
 	 * @return the description
 	 */
 	public String getDescription() {
+
 		return description;
 	}
 
@@ -137,6 +148,7 @@ public class Event {
 	 *            the new description
 	 */
 	public void setDescription(String description) {
+
 		this.description = description;
 	}
 
@@ -146,6 +158,7 @@ public class Event {
 	 * @return true, if is editable
 	 */
 	public boolean isEditable() {
+
 		return editable;
 	}
 
@@ -156,6 +169,7 @@ public class Event {
 	 *            the new editable
 	 */
 	public void setEditable(boolean editable) {
+
 		this.editable = editable;
 	}
 
