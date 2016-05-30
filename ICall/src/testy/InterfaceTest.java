@@ -42,7 +42,7 @@ public class InterfaceTest {
 	 * Add event.
 	 */
 	@Test
-	public void aAddTest() {
+	public void addTest() {
 
 		assertNotEquals(0, events.size());
 	}
