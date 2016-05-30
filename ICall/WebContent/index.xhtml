@@ -37,13 +37,13 @@
 
 				<p:outputLabel for="StartDateTime" value="Start datetime:">
 					<p:calendar id="StartDateTime" value="#{eventBean.event.startDate}"
-						pattern="MM/dd/yyyy HH:mm" required="true" />
+						pattern="dd/MM/yyyy HH:mm" required="true" />
 				</p:outputLabel>
 				<br />
 
 				<p:outputLabel for="EndDateTime" value="End datetime:">
 					<p:calendar id="EndDateTime" value="#{eventBean.event.endDate}"
-						pattern="MM/dd/yyyy HH:mm" required="true" />
+						pattern="dd/MM/yyyy HH:mm" required="true" />
 				</p:outputLabel>
 				<br />
 
@@ -78,7 +78,7 @@
 						<h:outputText value="DateStart" />
 					</f:facet>
 					<p:calendar value="#{event.startDate}" size="10"
-						rendered="#{event.editable}" pattern="MM/dd/yyyy HH:mm" />
+						rendered="#{event.editable}" pattern="dd/MM/yyyy HH:mm" />
 					<h:outputText value="#{event.startDate}"
 						rendered="#{not event.editable}" />
 				</p:column>
@@ -88,7 +88,7 @@
 						<h:outputText value="DateEnd" />
 					</f:facet>
 					<p:calendar value="#{event.endDate}" size="10"
-						rendered="#{event.editable}" pattern="MM/dd/yyyy HH:mm" />
+						rendered="#{event.editable}" pattern="dd/MM/yyyy HH:mm" />
 					<h:outputText value="#{event.endDate}"
 						rendered="#{not event.editable}" />
 				</p:column>

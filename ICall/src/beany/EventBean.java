@@ -82,9 +82,8 @@ public class EventBean implements Serializable {
 	 * @param event the event
 	 * @return the string
 	 */
-	public String remove(Event event) {
+	public void remove(Event event) {
 		events.remove(event);
-		return null;
 	}
 
 	/**
@@ -94,6 +93,7 @@ public class EventBean implements Serializable {
 		for (Event event : events) {
 			event.setEditable(false);
 		}
+		
 	}
 
 	/**
