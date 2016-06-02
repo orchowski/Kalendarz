@@ -162,6 +162,12 @@ public class Event {
 		return editable;
 	}
 
+	@Override
+	public String toString() {
+		return "Event [title=" + title + ", description=" + description + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", editable=" + editable + "]";
+	}
+
 	/**
 	 * Sets the editable.
 	 *
