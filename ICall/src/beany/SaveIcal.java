@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import klasy.Event;
 /**
  * The Class SaveIcal.
  * 
- * @author Krav(Przemys≥aw Krawczel)
+ * @author Krav(Przemys≈Çaw Krawczel)
  */
 @ManagedBean
 @SessionScoped
@@ -48,9 +49,6 @@ public class SaveIcal {
 	/** The Constant DATEEND. */
 	private static final String DATEEND = "DTEND:";
 
-	/** The begin v timezone. */
-	private static final String BEGINVTIMEZONE = "BEGIN:VTIMEZONE\r\n";
-
 	/** The Constant DESC. */
 	private static final String DESC = "DESCRIPTION:";
 
@@ -59,28 +57,25 @@ public class SaveIcal {
 
 	/**
 	 * Instantiates a new save ical.
-	 */
-
-	/**
-	 * Save.
 	 *
-	 * @param events
-	 *            the events
+	 * @param events the events
+	 * @param path the path
 	 */
-	public void save(final List<Event> events) {
+	public void save(final List<Event> events,final String path) {
 		if (!isEventEmpty(events)) {
-			saveToFile(events);
+			saveToFile(events, path);
 		}
 	}
 
+	
+	
 	/**
 	 * Checks if is event empty.
 	 *
-	 * @param events
-	 *            the events
+	 * @param events the events
 	 * @return true, if is event empty
 	 */
-	private boolean isEventEmpty(final List<Event> events) {
+	public boolean isEventEmpty(final List<Event> events) {
 		boolean isEmpty1;
 		if (events.isEmpty()) {
 			isEmpty1 = true;
@@ -95,18 +90,19 @@ public class SaveIcal {
 	/**
 	 * Save to file.
 	 *
-	 * @param events
-	 *            the events
+	 * @param events the events
+	 * @param path the path
+	 * @return the file
 	 */
-	private void saveToFile(final List<Event> events) {
+	public File saveToFile(final List<Event> events,final String path) {
 		// final File file = new File("ical/src/main/webapp/ical.ics");
-		final File file = new File("/src/main/resources/ical.ics");
+		///final File file = new File("/src/main/resources/ical.ics");
+		final File file = new File(path);
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Error");
 			}
 		}
 		try {
@@ -115,7 +111,6 @@ public class SaveIcal {
 			buf.write(CALBEGIN);
 			buf.write(VERSION);
 			buf.write(PRODID);
-			buf.write(BEGINVTIMEZONE);
 			buf.write("TZID:Europe/Warsaw\r\n");
 			for (int i = 0; i < events.size(); i++) {
 				buf.write(EVENTBEGIN);
@@ -125,7 +120,6 @@ public class SaveIcal {
 				buf.write(EVENTTITLE + getTitle(events.get(i)) + "\r\n");
 				buf.write(DESC + getDescription(events.get(i)) + "\r\n");
 				buf.write(EVENTEND);
-				System.out.println("stworzono");
 			}
 			buf.write(CALEND);
 			buf.close();
@@ -133,7 +127,7 @@ public class SaveIcal {
 		} catch (IOException e) {
 			System.out.println("Problem z plikiem");
 		}
-
+		return file;
 	}
 
 	/**
@@ -160,29 +154,28 @@ public class SaveIcal {
 
 	/**
 	 * Date parse.
-	 *
-	 * @param event
-	 *            the event
-	 * @param startOrEnd
-	 *            the start or end
+	 * @param event  the event
+	 * @param startOrEnd the start or end of date
 	 * @return the string
 	 */
-	private String dateParse(final Event event, final boolean startOrEnd) {
+	public String dateParse(final Event event, final boolean startOrEnd) {
 		final StringBuilder formated = new StringBuilder();
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
 		if (startOrEnd) {
 			formated.append(format1.format(event.getStartDate()));
 		} else {
 			formated.append(format1.format(event.getEndDate()));
 		}
 		formated.append('T');
-		format1 = new SimpleDateFormat("HHmmss");
-		formated.append(format1.format(event.getStartDate()));
-		formated.append("\r\n");
+		format1 = new SimpleDateFormat("HHmmss", Locale.ENGLISH);
+		formated.append(format1.format(event.getStartDate())).append("\r\n");
 		System.out.println(formated);
 		return formated.toString();
 	}
 
+	/**
+	 * Info.
+	 */
 	public void info() {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "There is nothing to save"));
