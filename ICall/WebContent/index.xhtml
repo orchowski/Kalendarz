@@ -19,10 +19,13 @@
 			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 			<h:commandButton id="new" value="NEW" type="button" styleClass="ui-mini" onclick="PF('dlg').show();" title="New Event" />
 			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />					
-			<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-  		  	   <f:actionListener binding="#{saveIcal.save(eventBean.getEvents())}" />
-    		   	<p:fileDownload value="#{fileDownload.file}" />
-    		 </p:commandButton>
+			<p:commandButton value="Download" ajax="false" style="float:right;"
+				onclick="PrimeFaces.monitorDownload(start, stop);"
+				icon="ui-icon-arrowthick-1-s">
+				<f:actionListener
+					binding="#{saveIcal.save(eventBean.getEvents(),'var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/ical.ics')}" />
+				<p:fileDownload value="#{fileDownload.file}" />
+			</p:commandButton>
     		 
     		 
 			<p:dialog  header="New Event" widgetVar="dlg" resizable="false" dynamic="true">
