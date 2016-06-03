@@ -16,16 +16,22 @@
 		<h:form id="adding">
 			<legend>Generator</legend>
 
-			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-			<h:commandButton id="new" value="NEW" type="button" styleClass="ui-mini" onclick="PF('dlg').show();" title="New Event" />
-			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />					
-			<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
-  		  	   <f:actionListener binding="#{saveIcal.save(eventBean.getEvents())}" />
-    		   	<p:fileDownload value="#{fileDownload.file}" />
-    		 </p:commandButton>
-    		 
-    		 
-			<p:dialog  header="New Event" widgetVar="dlg" resizable="false" dynamic="true" position="left top">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<h:commandButton id="new" value="NEW" type="button"
+				styleClass="ui-mini" onclick="PF('dlg').show();" title="New Event" />
+			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />
+			<p:commandButton value="Download" ajax="false" style="float:right;"
+				onclick="PrimeFaces.monitorDownload(start, stop);"
+				icon="ui-icon-arrowthick-1-s">
+				<f:actionListener
+					binding="#{saveIcal.save(eventBean.getEvents(),'var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/ical.ics')}" />
+				<p:fileDownload value="#{fileDownload.file}" />
+			</p:commandButton>
+
+
+			<p:dialog header="New Event" widgetVar="dlg" resizable="false"
+				modal="true" dynamic="true">
 
 				<p:outputLabel for="title" value="Title:">
 					<p:inputText id="title" value="#{eventBean.event.title}"
@@ -41,20 +47,22 @@
 
 				<p:outputLabel for="startDate" value="Start datetime:">
 					<p:calendar id="startDate" value="#{eventBean.event.startDate}"
-						pattern="dd/MM/yyyy HH:mm" required="true" maxdate="#{eventBean.event.endDate}">
+						pattern="dd/MM/yyyy HH:mm" required="true"
+						maxdate="#{eventBean.event.endDate}">
 						<p:ajax event="dateSelect" update="endDate"></p:ajax>
-						
-						
-				</p:calendar>
+
+
+					</p:calendar>
 				</p:outputLabel>
 				<br />
 
 				<p:outputLabel for="endDate" value="End datetime:">
 					<p:calendar id="endDate" value="#{eventBean.event.endDate}"
-						pattern="dd/MM/yyyy HH:mm" required="true" mindate="#{eventBean.event.startDate}">
+						pattern="dd/MM/yyyy HH:mm" required="true"
+						mindate="#{eventBean.event.startDate}">
 						<p:ajax event="dateSelect" update="startDate"></p:ajax>
-						
-				</p:calendar>
+
+					</p:calendar>
 				</p:outputLabel>
 				<br />
 
@@ -89,9 +97,10 @@
 						<h:outputText value="DateStart" />
 					</f:facet>
 					<p:calendar id="startDate" value="#{event.startDate}" size="10"
-						rendered="#{event.editable}" pattern="dd/MM/yyyy HH:mm" maxdate="#{event.endDate}">
+						rendered="#{event.editable}" pattern="dd/MM/yyyy HH:mm"
+						maxdate="#{event.endDate}">
 						<p:ajax event="dateSelect" update="endDate"></p:ajax>
-					
+
 					</p:calendar>
 					<h:outputText value="#{event.startDate}"
 						rendered="#{not event.editable}" />
@@ -101,12 +110,13 @@
 					<f:facet name="dataend">
 						<h:outputText value="DateEnd" />
 					</f:facet>
-					
-					<p:calendar  id="endDate" value="#{event.endDate}" size="10"
-						rendered="#{event.editable}" pattern="dd/MM/yyyy HH:mm" mindate="#{event.startDate}">
-						
-					<p:ajax event="dateSelect" update="startDate"></p:ajax>
-					
+
+					<p:calendar id="endDate" value="#{event.endDate}" size="10"
+						rendered="#{event.editable}" pattern="dd/MM/yyyy HH:mm"
+						mindate="#{event.startDate}">
+
+						<p:ajax event="dateSelect" update="startDate"></p:ajax>
+
 					</p:calendar>
 					<h:outputText value="#{event.endDate}"
 						rendered="#{not event.editable}" />

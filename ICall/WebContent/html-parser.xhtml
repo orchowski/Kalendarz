@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- @Author Aleksander Orchowski -->
+
+<h:head>
+	<title>Parser-HTML-TABLE</title>
+</h:head>
+
+<h:body>
+	<h:commandButton id="url" value="SET URL" type="button"
+		styleClass="ui-mini" onclick="PF('dlg1').show();" title="New Event" />
+
+
+<!-- 	<p:dialog header="SET URL" widgetVar="dlg1" modal="true" height="100"> 
+		<p:outputLabel for="url" value="URL:">-->
+			<h:inputText id="url" value="#{htmlParseBean.url}"/>
+	<!-- 	</p:outputLabel>
+		<br />
+		<h:commandButton action="#{eventBean.add()}" value="OK"
+			position="left bottom">
+		</h:commandButton>
+	</p:dialog> -->
+
+
+
+</h:body>
+</html>

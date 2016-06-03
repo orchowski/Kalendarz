@@ -2,10 +2,7 @@ package parseHTML;
 
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -13,11 +10,16 @@ import java.util.Locale;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import klasy.Event;
 
+/**
+ * @author Aleksander Orchowski
+ *
+ */
 public class Parse {
+	/**
+	 * Events list in arrayList, which contains events to add to the main app.
+	 */
 	public ArrayList<Event> events = new ArrayList<Event>();
 	private String url;
 	private Document doc;
@@ -31,6 +33,7 @@ public class Parse {
 			System.out.println("connected with: " + url);
 		} catch (IOException e) {
 			System.err.println("Connection ERROR");
+			System.exit(404);
 		}
 	}
 
@@ -46,28 +49,46 @@ public class Parse {
 		return table;
 	}
 
+	public boolean checkTable(Element table) {
+		int row = table.select("tr").size();
+		int cols = table.select("tr").get(0).select("td").size();
+		if (cols == 0) {
+			cols = table.select("tr").get(0).select("th").size();
+		}
+		try{
+			for (int i = 0; i < row; i++) {
+				for (int j = 0; j < cols; j++) {
+
+				}
+			}
+		} catch ( Exception e) {
+			return false;
+		}
+		return true;
+	}
+
 	public void parseTableToEvents(Element table, int title, int dStart, int dEnd, int desc[]) {
 
 		/// formatowanie daty
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-		LocalDate date = LocalDate.parse(table.select("tr").get(2).select("td").get(2).text().toString(), formatter);
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
 		// formatowanie daty
 
 		int row = table.select("tr").size();
 		int cols = table.select("tr").get(1).select("td").size();
-		int i = 0;
-		String th = table.select("tr").get(0).select("th").get(0).toString();
+
+		String th;
 		String tmp = "";
-		if (th.contains("th")) {
-			i++;
-		}
 
 		try {
-			for (; i < row; i++) {// System.out.println(row + " " + cols);
+			for (int i = 0; i < row; i++) {
+				th = table.select("tr").get(i).toString();
+				if (th.toLowerCase().contains("th")) {
+					continue;
+				}
 				for (int j = 0; j < cols; j++) {
-					// System.out.println(j);
+
 					tmp = (tmp + table.select("tr").get(i).select("td").get(j).text().toString() + " ");
 				}
 				//
@@ -80,13 +101,17 @@ public class Parse {
 				}
 				e.setDescription(dsc);
 				e.setTitle(table.select("tr").get(i).select("td").get(title).text().toString() + " ");
-				LocalDate data = LocalDate.parse(table.select("tr").get(i).select("td").get(dStart).text().toString(),
-						formatter);
-				e.setStartDate(new Date(data.getYear()-1900, data.getMonthValue(), data.getDayOfMonth()));
-				data = LocalDate.parse(table.select("tr").get(i).select("td").get(dEnd).text().toString(), formatter);
-				e.setEndDate(new Date(data.getYear()-1900, data.getMonthValue(), data.getDayOfMonth()));
+				try {
+					Date data = formatter.parse(table.select("tr").get(i).select("td").get(dStart).text().toString());
+					e.setStartDate(data);
+					data = formatter.parse(table.select("tr").get(i).select("td").get(dEnd).text().toString());
+					e.setEndDate(data);
 
-				events.add(e);
+					events.add(e);
+				} catch (Exception ex) {
+					System.out.print("Nie znaleziono daty");
+					continue;
+				}
 
 			}
 		} catch (Exception e) {
@@ -96,16 +121,6 @@ public class Parse {
 	}
 
 	public static void main(String[] args) {
-		String string = "January 2, 2010";
-		DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
-		Date date;
-		try {
-			date = format.parse(string);
-			System.out.println(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		Parse p = new Parse("http://localhost:8080/ICall/tables.html");
 
