@@ -13,15 +13,23 @@
 <h:body>
 
 	<fieldset>
-		<h:form id="adding">
+		<!--   <h:form id="form" enctype="multipart/form-data">
+		Moje (Huberta) zostawiam zeby miec w razie czego
+		-->
+
+		<h:form id="adding" enctype="multipart/form-data">
 			<legend>Generator</legend>
 
 			<h:commandButton id="new" value="NEW" type="button"
 				styleClass="ui-mini" />
-			<h:commandButton value="OPEN" action="#{eventBean.open()}"/>
-			
+
 			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />
 
+			<p>
+				<h:commandButton value="OPEN" action="#{eventBean.upload}" />
+				<h:inputFile id="file" value="#{eventBean.file1}"
+					validator="#{eventBean.validateFile}" />
+			</p>
 			<p:overlayPanel id="PANEL" for="new" hideEffect="fade" dynamic="true"
 				style="width:600px;height:350px">
 

@@ -1,9 +1,11 @@
 package beany;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,16 +15,24 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
+import javax.servlet.http.Part; //do Parta
 
-import jdk.nashorn.internal.runtime.ParserException;
+import org.apache.commons.io.FilenameUtils;
+
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
+import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
+
 import klasy.Event;
 import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Component;
-import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.Property;
-import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 
 /**
@@ -37,6 +47,15 @@ public class EventBean implements Serializable {
 	private static net.fortuna.ical4j.model.Calendar calendar;
 	private static DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 	private static int puste;
+	private Part file1;
+	private String fileContent;
+	// private static FileInputStream fin = null;
+	private static CalendarBuilder builder = new CalendarBuilder();
+	String pliczek = null;
+	StringReader sin = null;
+//	private static final String ValidationPattern = "([^\\s]+(\\.(?i)(ics))$)";
+//	private Pattern pattern;
+//	private Matcher matcher;
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -120,6 +139,46 @@ public class EventBean implements Serializable {
 	}
 
 	// Hubi metody
+	public Part getFile1() {
+		return file1;
+	}
+
+	public void setFile1(Part file1) {
+		this.file1 = file1;
+	}
+
+	public void upload() throws ParserException, ParseException {
+		try {
+			InputStream in = file1.getInputStream();
+			BufferedReader bf = new BufferedReader(new InputStreamReader(in));
+			StringBuffer sb = new StringBuffer();
+			while ((fileContent = bf.readLine()) != null) {
+				sb.append(fileContent + "\r\n");
+			}
+			pliczek = sb.toString();
+			sin = new StringReader(pliczek);
+			open();
+		} catch (IOException e) {
+			// Error handling
+		}
+	}
+
+	public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
+		List<FacesMessage> msgs = new ArrayList<FacesMessage>();
+		Part file = (Part) value;
+//		if (file.getSize() > 1024) {
+//			msgs.add(new FacesMessage("file too big"));
+//		}
+		if (!"text/calendar".equals(file.getContentType())) {
+			msgs.add(new FacesMessage("To nie jest plik iCal"));
+		}
+		if (!msgs.isEmpty()) {
+			throw new ValidatorException(msgs);
+		}
+	}
+
+	// u gory metody do upload pliku
+
 	public java.util.Date stringParseToDate(String date) throws ParseException {
 		java.util.Date result = dateFormat.parse(date);
 		return result;
@@ -149,19 +208,12 @@ public class EventBean implements Serializable {
 	// g³owna metoda otwierajaca plik iCal
 	public void open() throws net.fortuna.ical4j.data.ParserException, ParseException {
 		clear();
+		// final FileInputStream fin = new
+		// FileInputStream("C:\\Users\\hubik_000\\Desktop\\basic.ics");
 		try {
-			final FileInputStream fin = new FileInputStream("C:\\Users\\hubik_000\\Desktop\\basic.ics");
-			final CalendarBuilder builder = new CalendarBuilder();
-			try {
-				calendar = builder.build(fin);
-			} catch (IOException e) {
-				System.out.println("IOException!");
-			} catch (ParserException e) {
-				System.out.println("ParserException!");
-			}
-
-		} catch (FileNotFoundException e) {
-			System.out.println("Nie znaleziono pliku!");
+			calendar = builder.build(sin);
+		} catch (IOException e) {
+			System.out.println("IOException");
 		}
 
 		String line;
