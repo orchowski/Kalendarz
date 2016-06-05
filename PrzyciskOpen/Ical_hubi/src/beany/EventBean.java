@@ -205,7 +205,7 @@ public class EventBean implements Serializable {
 		return startDate;
 	}
 
-	// g³owna metoda otwierajaca plik iCal
+	// gÂ³owna metoda otwierajaca plik iCal
 	public void open() throws net.fortuna.ical4j.data.ParserException, ParseException {
 		clear();
 		// final FileInputStream fin = new

@@ -13,11 +13,8 @@
 <h:body>
 
 	<fieldset>
-		<!--   <h:form id="form" enctype="multipart/form-data">
-		Moje (Huberta) zostawiam zeby miec w razie czego
-		-->
 
-		<h:form id="adding" enctype="multipart/form-data">
+		<h:form id="adding">
 			<legend>Generator</legend>
 
 			<h:commandButton id="new" value="NEW" type="button"
@@ -25,11 +22,6 @@
 
 			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />
 
-			<p>
-				<h:commandButton value="OPEN" action="#{eventBean.upload}" />
-				<h:inputFile id="file" value="#{eventBean.file1}"
-					validator="#{eventBean.validateFile}" />
-			</p>
 			<p:overlayPanel id="PANEL" for="new" hideEffect="fade" dynamic="true"
 				style="width:600px;height:350px">
 
@@ -71,6 +63,14 @@
 				</h:commandButton>
 
 			</p:overlayPanel>
+		</h:form>
+		<h:form id="opening" enctype="multipart/form-data">
+			<p>
+				<h:commandButton value="OPEN" action="#{eventBean.upload}" />
+				<h:inputFile id="file" value="#{eventBean.file1}"
+					validator="#{eventBean.validateFile}" required="true" />
+				<h:message for="file" style="color:red; margin:8px" />
+			</p>
 		</h:form>
 	</fieldset>
 
