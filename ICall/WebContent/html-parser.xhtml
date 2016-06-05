@@ -1,33 +1,48 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
 
-<!-- @Author Aleksander Orchowski -->
+    <!-- @Author Aleksander Orchowski -->
 
-<h:head>
-	<title>Parser-HTML-TABLE</title>
-</h:head>
-
-<h:body>
-	<h:commandButton id="url" value="SET URL" type="button"
-		styleClass="ui-mini" onclick="PF('dlg1').show();" title="New Event" />
-
-
-<!-- 	<p:dialog header="SET URL" widgetVar="dlg1" modal="true" height="100"> 
-		<p:outputLabel for="url" value="URL:">-->
-			<h:inputText id="url" value="#{htmlParseBean.url}"/>
-	<!-- 	</p:outputLabel>
-		<br />
-		<h:commandButton action="#{eventBean.add()}" value="OK"
-			position="left bottom">
-		</h:commandButton>
-	</p:dialog> -->
+    <h:head>
+        <title>Parser-HTML-TABLE</title>
+    </h:head>
+    <h:body>
+ 
 
 
 
-</h:body>
+
+        <p:growl id="mesg" showDetail="true" sticky="true" /> 
+        <p:panel header="Podaj adres strony:"  style="width:400px">
+            <h:form>
+
+                <p:inputText id="msg" value="#{htmlParse.msg}" required="true" />  
+                <p:commandButton value="Połącz" actionListener="#{htmlParse.connect}" update="tables" />
+
+            </h:form>    
+        </p:panel>
+        
+         <p:carousel id="tables" value="#{htmlParse.tables}" var="table" itemStyle="height:50%;text-align:center" numVisible="1" easing="easeOutBounce" style="width:50%" >
+        <p:outputPanel style="text-align: center;" layout="">
+             
+                    <h:outputText value="Tabela nr. #{table.index+1}" escape="false" />
+            <hr />
+            <center>
+            <h:outputText value="#{table.content}" escape="false" />
+</center>   
+        </p:outputPanel>
+            
+    </p:carousel>  
+
+
+
+
+
+
+    </h:body>
 </html>

@@ -27,7 +27,6 @@ public class Parse {
 	public Parse(String url) {
 		super();
 		this.url = url;
-
 		try {
 			doc = Jsoup.connect(url).get();
 			System.out.println("connected with: " + url);
@@ -36,6 +35,10 @@ public class Parse {
 			System.exit(404);
 		}
 	}
+
+    public Parse() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 	public int getNumberOfTables() {
 		int amount;
@@ -122,7 +125,7 @@ public class Parse {
 
 	public static void main(String[] args) {
 
-		Parse p = new Parse("http://localhost:8080/ICall/tables.html");
+		Parse p = new Parse("http://localhost:8080/WEB-INF/faces/tables.html");
 
 		int[] t = { 0, 1 };
 		// LocalDate data = LocalDate.now();
