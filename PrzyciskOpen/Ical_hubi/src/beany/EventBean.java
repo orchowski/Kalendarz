@@ -23,11 +23,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.Part; //do Parta
 
-import org.apache.commons.io.FilenameUtils;
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Pattern;
-import com.sun.org.apache.xerces.internal.impl.xs.identity.Selector.Matcher;
-
 import klasy.Event;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
@@ -207,7 +202,7 @@ public class EventBean implements Serializable {
 
 	// g³owna metoda otwierajaca plik iCal
 	public void open() throws net.fortuna.ical4j.data.ParserException, ParseException {
-		clear();
+		//clear();
 		// final FileInputStream fin = new
 		// FileInputStream("C:\\Users\\hubik_000\\Desktop\\basic.ics");
 		try {
