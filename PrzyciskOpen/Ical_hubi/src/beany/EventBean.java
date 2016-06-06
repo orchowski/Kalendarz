@@ -48,9 +48,10 @@ public class EventBean implements Serializable {
 	private static CalendarBuilder builder = new CalendarBuilder();
 	String pliczek = null;
 	StringReader sin = null;
-//	private static final String ValidationPattern = "([^\\s]+(\\.(?i)(ics))$)";
-//	private Pattern pattern;
-//	private Matcher matcher;
+	// private static final String ValidationPattern =
+	// "([^\\s]+(\\.(?i)(ics))$)";
+	// private Pattern pattern;
+	// private Matcher matcher;
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -144,15 +145,21 @@ public class EventBean implements Serializable {
 
 	public void upload() throws ParserException, ParseException {
 		try {
-			InputStream in = file1.getInputStream();
-			BufferedReader bf = new BufferedReader(new InputStreamReader(in));
-			StringBuffer sb = new StringBuffer();
-			while ((fileContent = bf.readLine()) != null) {
-				sb.append(fileContent + "\r\n");
+			if ("text/xml".equals(file1.getContentType())) {
+				// metoda Przemka
+				// addEvents(xmlParser.parseXml()
+				// powinno to zadziałac, ale nie jestem pewien w 100%
+			} else {
+				InputStream in = file1.getInputStream();
+				BufferedReader bf = new BufferedReader(new InputStreamReader(in));
+				StringBuffer sb = new StringBuffer();
+				while ((fileContent = bf.readLine()) != null) {
+					sb.append(fileContent + "\r\n");
+				}
+				pliczek = sb.toString();
+				sin = new StringReader(pliczek);
+				open();
 			}
-			pliczek = sb.toString();
-			sin = new StringReader(pliczek);
-			open();
 		} catch (IOException e) {
 			// Error handling
 		}
@@ -161,11 +168,13 @@ public class EventBean implements Serializable {
 	public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
 		List<FacesMessage> msgs = new ArrayList<FacesMessage>();
 		Part file = (Part) value;
-//		if (file.getSize() > 1024) {
-//			msgs.add(new FacesMessage("file too big"));
-//		}
+		// if (file.getSize() > 1024) {
+		// msgs.add(new FacesMessage("file too big"));
+		// }
 		if (!"text/calendar".equals(file.getContentType())) {
-			msgs.add(new FacesMessage("To nie jest plik iCal"));
+			if (!"text/xml".equals(file.getContentType())) {
+				msgs.add(new FacesMessage("To nie jest plik iCal, lub xml"));
+			}
 		}
 		if (!msgs.isEmpty()) {
 			throw new ValidatorException(msgs);
@@ -202,7 +211,7 @@ public class EventBean implements Serializable {
 
 	// g³owna metoda otwierajaca plik iCal
 	public void open() throws net.fortuna.ical4j.data.ParserException, ParseException {
-		//clear();
+		// clear();
 		// final FileInputStream fin = new
 		// FileInputStream("C:\\Users\\hubik_000\\Desktop\\basic.ics");
 		try {
