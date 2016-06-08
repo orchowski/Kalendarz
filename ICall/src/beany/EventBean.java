@@ -24,6 +24,7 @@ public class EventBean implements Serializable {
 	public void init() {
 		event = new Event();
 		events = new ArrayList<Event>();
+                
 	}
 
 	public boolean contain() {
@@ -84,6 +85,13 @@ public class EventBean implements Serializable {
 
 	public void setEvents(List<Event> events) {
 		this.events = events;
+	}
+        public void htmlParseSplit(List<Event> events) {
+            for(Event ev:events)
+		for(Event ev2:this.events)
+                {
+                    ev=new Event(ev2.getTitle(),ev2.getStartDate(),ev2.getEndDate(),ev2.getDescription());
+                }
 	}
 
 }

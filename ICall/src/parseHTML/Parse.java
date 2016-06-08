@@ -20,20 +20,22 @@ public class Parse {
 	/**
 	 * Events list in arrayList, which contains events to add to the main app.
 	 */
-	public ArrayList<Event> events = new ArrayList<Event>();
+	private ArrayList<Event> events;
+
+    public ArrayList<Event> getEvents() {
+        return events;
+    }
 	private String url;
 	private Document doc;
 
-	public Parse(String url) {
+	public Parse(String url) throws IOException {
 		super();
 		this.url = url;
-		try {
+		
+                        events=new ArrayList<Event>();
 			doc = Jsoup.connect(url).get();
 			System.out.println("connected with: " + url);
-		} catch (IOException e) {
-			System.err.println("Connection ERROR");
-			System.exit(404);
-		}
+	
 	}
 
     public Parse() {
@@ -45,6 +47,15 @@ public class Parse {
 		amount = doc.select("table").size();
 
 		return amount;
+	}
+        public int getNumberOfCols(int tab) {
+		
+		Element table = doc.select("table").get(tab);
+               int cols = table.select("tr").get(0).select("td").size();
+		if (cols == 0) {
+			cols = table.select("tr").get(0).select("th").size();
+		}
+		return cols;
 	}
 
 	public Element getTable(int index) {
@@ -70,11 +81,11 @@ public class Parse {
 		return true;
 	}
 
-	public void parseTableToEvents(Element table, int title, int dStart, int dEnd, int desc[]) {
+	public String parseTableToEvents(Element table, int title, int dStart, int dEnd, int desc[]) {
 
 		/// formatowanie daty
-
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                String dateFormat = "yyyy-MM-dd";
+                DateFormat formatter = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
 
 		// formatowanie daty
 
@@ -83,6 +94,7 @@ public class Parse {
 
 		String th;
 		String tmp = "";
+                String msg="";
 
 		try {
 			for (int i = 0; i < row; i++) {
@@ -112,28 +124,18 @@ public class Parse {
 
 					events.add(e);
 				} catch (Exception ex) {
-					System.out.print("Nie znaleziono daty");
+					msg=(msg+" Nie znaleziono daty" + " format daty to:" + dateFormat);
 					continue;
 				}
 
 			}
 		} catch (Exception e) {
-			System.out.print("Zly format tabeli. Musi miec tyle samo komorek w kazdym wierszu");
+			return ("Zly format tabeli. Musi miec tyle samo komorek w kazdym wierszu");
 		}
 		System.out.println(tmp);
+                return msg+"\nZakończono";
 	}
 
-	public static void main(String[] args) {
-
-		Parse p = new Parse("http://localhost:8080/WEB-INF/faces/tables.html");
-
-		int[] t = { 0, 1 };
-		// LocalDate data = LocalDate.now();
-		p.parseTableToEvents(p.getTable(2), 0, 2, 3, t);
-		System.out.println("A teraz z listy");
-		for (Event ev : p.events) {
-			System.out.println(ev.toString());
-		}
-	}
+	
 
 }

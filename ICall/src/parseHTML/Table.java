@@ -5,6 +5,9 @@
  */
 package parseHTML;
 
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Evaluator.Tag;
+
 /**
  *
  * @author Aleks
@@ -12,6 +15,7 @@ package parseHTML;
 public class Table {
     private String content;
     private int index;
+    private Element cont;
 
     public Table(String content, int index) {
         this.content = content;
