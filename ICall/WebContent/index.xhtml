@@ -20,8 +20,9 @@
                             closable="true" />
                 <p:commandButton id="new" value="NEW" type="button"
                                  styleClass="ui-mini" onclick="PF('dlg').show();" title="New Event" />
+                <h:commandLink id="clr">
                 <p:commandButton value="CLEAR" action="#{eventBean.clear()}" />
-          
+             </h:commandLink>
                 <p:commandButton id="sDownload" value="Download" type="button" icon="ui-icon-arrowthick-1-s"   
                                  styleClass="ui-mini" onclick="PF('download').show();"   style="float:right;"/>
 
