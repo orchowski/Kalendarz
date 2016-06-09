@@ -1,9 +1,11 @@
 package beany;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.text.DateFormat;
@@ -145,20 +147,27 @@ public class EventBean implements Serializable {
 
 	public void upload() throws ParserException, ParseException {
 		try {
+
+			InputStream in = file1.getInputStream();
+			BufferedReader bf = new BufferedReader(new InputStreamReader(in));
+			StringBuffer sb = new StringBuffer();
+			while ((fileContent = bf.readLine()) != null) {
+				sb.append(fileContent + "\r\n");
+			}
+			pliczek = sb.toString();
 			if ("text/xml".equals(file1.getContentType())) {
 				// metoda Przemka
 				// addEvents(xmlParser.parseXml()
 				// powinno to zadziałac, ale nie jestem pewien w 100%
-			} else {
-				InputStream in = file1.getInputStream();
-				BufferedReader bf = new BufferedReader(new InputStreamReader(in));
-				StringBuffer sb = new StringBuffer();
-				while ((fileContent = bf.readLine()) != null) {
-					sb.append(fileContent + "\r\n");
+				try (PrintWriter out = new PrintWriter("tutaj ten twoj obiekt File")) {
+					out.println(pliczek);
 				}
-				pliczek = sb.toString();
-				sin = new StringReader(pliczek);
-				open();
+				// to co masz u gory powinno załatwic sprawe 
+			} else {
+				if ("text/calendar".equals(file1.getContentType())) {
+					sin = new StringReader(pliczek);
+					open();
+				}
 			}
 		} catch (IOException e) {
 			// Error handling
