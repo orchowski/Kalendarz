@@ -14,10 +14,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,9 +35,8 @@ import klasy.Event;
 @ManagedBean
 @SessionScoped
 public class XmlParser {
-
 	/** The event. */
-	private transient Event event = new Event();
+	private transient static Event event = new Event();
 
 	/**
 	 * Parses the xml.
@@ -43,17 +44,19 @@ public class XmlParser {
 	 * @return the list
 	 * @throws SAXException
 	 *             the SAX exception
+	 * @throws ParseException
+	 * @throws DOMException
 	 * @throws Exception
 	 *             the exception
 	 */
-	public List<Event> parseXml() throws SAXException, Exception {
+	public static final List<Event> parseXml(final File file) throws SAXException, DOMException, ParseException {
 		final List<Event> events = new ArrayList<Event>();
-
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setIgnoringElementContentWhitespace(true);
 		try {
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			final File file = new File("D:/ICal/test/Ical/test2.xml");
+			// final Document doc = builder.parse(file);
+			// doc.getDocumentElement().normalize();
 			final Document doc = builder.parse(file);
 			doc.getDocumentElement().normalize();
 			final NodeList nList = doc.getElementsByTagName("event");
@@ -86,16 +89,16 @@ public class XmlParser {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	private Date dateParse(final String string) throws ParseException {
-		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
-		Date parsedDate = dateFormat.parse(string);
-		return parsedDate;
+	private static Date dateParse(final String string) throws ParseException {
+		final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
+		//final Date parsedDate = dateFormat.parse(string);
+		return dateFormat.parse(string);
 	}
 
 	/**
 	 * Info.
 	 */
-	public void info() {
+	public static void info() {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Problem z plikiem"));
 	}
