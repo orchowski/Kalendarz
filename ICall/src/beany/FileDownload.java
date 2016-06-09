@@ -29,7 +29,7 @@ public class FileDownload {
 
 		InputStream stream;
 		try {
-			stream = new FileInputStream("/var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/ical.ics");
+			stream = new FileInputStream("./ical.ics");
 			//stream = new FileInputStream("/ical.ics");
 			file = new DefaultStreamedContent(stream, "/ical", "ical.ics");
 		} catch (FileNotFoundException e) {

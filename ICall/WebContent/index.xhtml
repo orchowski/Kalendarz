@@ -135,14 +135,14 @@
                 <p:dialog header="DOWNLOAD" widgetVar="download" resizable="false"
                           modal="true" dynamic="true">
                     <h:commandLink id="csv">
-                        <p:commandButton value="CSV" style="float:left;" />
+                        <p:commandButton value="CSV" style="float:left;" icon="ui-icon-arrowthick-1-s"  />
 
                         <p:dataExporter type="csv" target="eventsTable" fileName="kalendarz" />
                     </h:commandLink>
                     <p:commandButton value="iCal" style="float:right;"
                                      onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
                         <f:actionListener
-                            binding="#{saveIcal.save(eventBean.getEvents(),'/ical.ics')}" />
+                            binding="#{saveIcal.save(eventBean.getEvents(),'./ical.ics')}" />
                         <p:fileDownload value="#{fileDownload.file}" />
                     </p:commandButton>
                 </p:dialog>

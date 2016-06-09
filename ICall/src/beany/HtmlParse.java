@@ -5,12 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import klasy.Event;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;
-import org.jsoup.nodes.Element;
 import parseHTML.Col;
 import parseHTML.Parse;
 import parseHTML.Table;
@@ -19,7 +16,11 @@ import parseHTML.Table;
 @SessionScoped
 public class HtmlParse implements Serializable {
 
-    private List<Event> events;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private List<Event> events;
 
     public void setEvents(List<Event> events) {
         this.events = events;
@@ -31,7 +32,6 @@ public class HtmlParse implements Serializable {
     }
     private List<Table> tables;
     private List<Col> cols;
-    private Event event;
     private Parse parser;
     private String url, msg;
     private Table tab = new Table("",0);
@@ -123,16 +123,16 @@ return events;
         Table table = new Table(parser.getTable(tab).toString(),tab);
         if(parser.checkTable(parser.getTable(tab))){
              this.tab = table;
-             ColsList();
+             colsList();
               context.addMessage(null, new FacesMessage("Poprawna tabela" + this.tab.getIndex()));
         }else
-               context.addMessage(null, new FacesMessage("Niepoprawna tabela. (Sprawd≈∫ czy na pewno ma tyle samo kom√≥rek w ka≈ºdym wierszu)"));
+               context.addMessage(null, new FacesMessage("Niepoprawna tabela. (Sprawdü czy na pewno ma tyle samo komÛrek w kaødym wierszu)"));
         
       
     }
 
     public void connect() {
-        FacesContext context = FacesContext.getCurrentInstance();
+        final FacesContext context = FacesContext.getCurrentInstance();
         setUrl(msg);
         try {
             parser = new Parse(url);
@@ -149,7 +149,7 @@ return events;
             context.addMessage(null, new FacesMessage("Connecting error:" + url));
         }
     }
-      private void ColsList(){
+      private void colsList(){
         for(int i=1;i<parser.getNumberOfCols(tab.getIndex());i++){
             cols.add(new Col(i));
         }
