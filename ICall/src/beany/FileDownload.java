@@ -1,7 +1,9 @@
 package beany;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.faces.application.FacesMessage;
@@ -24,20 +26,30 @@ public class FileDownload {
 
 	/**
 	 * Instantiates a new file download.
+	 * @throws IOException 
 	 */
-	public FileDownload() {
-
+	public FileDownload() throws IOException {
+		
 		InputStream stream;
 		try {
-			stream = new FileInputStream("/var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/ical.ics");
-			//stream = new FileInputStream("/ical.ics");
+		stream = new FileInputStream("/var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/ical.ics");
+		//stream = new FileInputStream("/ical.ics");
 			file = new DefaultStreamedContent(stream, "/ical", "ical.ics");
+			
+			
 		} catch (FileNotFoundException e) {
 			info();
 		}
 		
 	}
 
+/**
+ * Delete file.
+ */
+public static void deleteFile(){
+	final File file1 = new File("/ical.ics");
+	file1.delete();
+}
 	/**
 	 * Gets the file.
 	 *
