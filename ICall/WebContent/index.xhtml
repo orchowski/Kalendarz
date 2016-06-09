@@ -18,15 +18,24 @@
 
 			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 			<h:commandButton id="new" value="NEW" type="button" styleClass="ui-mini" onclick="PF('dlg').show();" title="New Event" />
-			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />					
+			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />		
+			
+			
+
+			
 			<p:commandButton value="Download" ajax="false" style="float:right;"
 				onclick="PrimeFaces.monitorDownload(start, stop);"
 				icon="ui-icon-arrowthick-1-s">
 				<f:actionListener
-					binding="#{saveIcal.save(eventBean.getEvents(),'var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/ical.ics')}" />
+					binding="#{saveIcal.save(eventBean.getEvents(),'var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/ical.ics')}" />  
+				<!--	binding="#{saveIcal.save(eventBean.getEvents(),'/ical.ics')}"  />-->	
+						
+					
 				<p:fileDownload value="#{fileDownload.file}" />
+				<f:actionListener
+				binding="#{fileDownload.deleteFile()}" />
 			</p:commandButton>
-    		 
+  
     		 
 			<p:dialog  header="New Event" widgetVar="dlg" resizable="false" dynamic="true">
 
@@ -67,6 +76,14 @@
 
 			</p:dialog>
 		</h:form>
+		<h:form id="opening" enctype="multipart/form-data">
+				<p>
+				<h:commandButton value="OPEN" action="#{eventBean.upload}" ajax = "false"/>
+				<h:inputFile id="file" value="#{eventBean.file1}"
+					validator="#{eventBean.validateFile}" required="true"/>
+					<h:message for="file" style="color:red; margin:8px"/>
+				</p>	
+			</h:form>
 	</fieldset>
 
 	<h:form id="viewing">
@@ -126,5 +143,6 @@
 			</p:dataTable>
 		</p:outputPanel>
 	</h:form>
+	<p>Copy Rights by team ELO 2.0 </p>
 </h:body>
 </html>
