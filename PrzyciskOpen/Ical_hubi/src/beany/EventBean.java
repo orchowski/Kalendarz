@@ -159,10 +159,12 @@ public class EventBean implements Serializable {
 				// metoda Przemka
 				// addEvents(xmlParser.parseXml()
 				// powinno to zadziałac, ale nie jestem pewien w 100%
+				File tempFile=new File("D:/tempfile.xml");
 				try (PrintWriter out = new PrintWriter("tutaj ten twoj obiekt File")) {
 					out.println(pliczek);
 				}
-				// to co masz u gory powinno załatwic sprawe 
+				addEvents(XmlParser.parseXml(tempFile));
+				
 			} else {
 				if ("text/calendar".equals(file1.getContentType())) {
 					sin = new StringReader(pliczek);
