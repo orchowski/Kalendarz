@@ -16,10 +16,10 @@
 		<h:form id="adding">
 			<legend>Generator</legend>
 
-			<h:commandButton id="new" value="NEW" type="button"
+			<h:commandButton id="new" value="NEW" type="button" 
 				styleClass="ui-mini" />
 			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />
-
+			<h:commandButton value="parse" action="#{eventBean.addUzSite()}" />
 			<p:overlayPanel id="PANEL" for="new" hideEffect="fade" dynamic="true"
 				style="width:600px;height:350px">
 

@@ -67,7 +67,6 @@ public class Event {
 		setEndDate(dateEnd);
 		setDescription(description);
 	}
-
 	/**
 	 * Gets the title.
 	 *

@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import klasy.Event;
+import parserUZ.ParserUz;
+import parserUZ.Zajecia;
 
 
 /**
@@ -21,11 +23,12 @@ public class EventBean implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
+	private ParserUz parseUz;
 	/** The event. */
 	private Event event;
-	
+	private Zajecia zajecia;
 	//private boolean isOnList;
-	
+	private List<Zajecia> wiecejZajec;
 	/** The events. */
 	private List<Event> events;
 	
@@ -42,6 +45,14 @@ public class EventBean implements Serializable {
 		events = new ArrayList<Event>();
 	}
 	
+	
+	//dziala zle zrobie do wtorku
+	public void addUzSite(){
+		for(int i=0; i<parseUz.getSizeArray(); i++){
+			zajecia = parseUz.listaZajec.get(i);
+			wiecejZajec.add(zajecia);
+		}
+	}
 	/**
 	 * Adds the event.
 	 */
