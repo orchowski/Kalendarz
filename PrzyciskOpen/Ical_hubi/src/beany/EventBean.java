@@ -163,7 +163,7 @@ public class EventBean implements Serializable {
 				try (PrintWriter out = new PrintWriter("tutaj ten twoj obiekt File")) {
 					out.println(pliczek);
 				}
-				addEvents(XmlParser.parseXml(tempFile));
+				//addEvents(XmlParser.parseXml(tempFile));
 				
 			} else {
 				if ("text/calendar".equals(file1.getContentType())) {
