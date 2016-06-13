@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 public class ParserUz {
 
 	
-	public ArrayList<Zajecia> listaZajec = new ArrayList<Zajecia>();
+	
 	static String url="http://plan.uz.zgora.pl/grupy_plan.php?pId_Obiekt=16669";
 	private Document document;
 	private String nauczyciel;
@@ -24,7 +24,7 @@ public class ParserUz {
 	private String typTygodnia;
 	private String dzien;
 	
-
+	public ArrayList<Zajecia> listaZajec = new ArrayList<Zajecia>();
 	
 	public ParserUz(String url){
 		this.url=url;

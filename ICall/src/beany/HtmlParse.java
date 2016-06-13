@@ -95,8 +95,8 @@ return events;
     }
 
     
-    public void setUrl(String Url) {
-        url = Url;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getMsg() {
