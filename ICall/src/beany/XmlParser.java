@@ -14,7 +14,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.Part;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -55,22 +54,17 @@ public class XmlParser {
 		factory.setIgnoringElementContentWhitespace(true);
 		try {
 			final DocumentBuilder builder = factory.newDocumentBuilder();
-			// final Document doc = builder.parse(file);
-			// doc.getDocumentElement().normalize();
 			final Document doc = builder.parse(file);
-			doc.getDocumentElement().normalize();
-			final NodeList nList = doc.getElementsByTagName("event");
+			normalize(doc);
+
+			final NodeList nList = doc.getElementsByTagName("VEVENT");
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				Node nNode = nList.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
-
-					event.setDescription(eElement.getElementsByTagName("description").item(0).getTextContent());
-					event.setTitle(eElement.getElementsByTagName("summary").item(0).getTextContent());
-					event.setEndDate(dateParse(eElement.getElementsByTagName("dateEnd").item(0).getTextContent()));
-					event.setStartDate(dateParse(eElement.getElementsByTagName("dateStart").item(0).getTextContent()));
-					events.add(event);
 				}
+				Element eElement = (Element) nNode;
+					addEventsFromXml(nNode, events, eElement);
+				
 			}
 		} catch (ParserConfigurationException e) {
 			info();
@@ -78,6 +72,10 @@ public class XmlParser {
 			info();
 		}
 		return events;
+	}
+
+	private static void normalize(Document doc) {
+		doc.normalize();
 	}
 
 	/**
@@ -90,9 +88,23 @@ public class XmlParser {
 	 *             the parse exception
 	 */
 	private static Date dateParse(final String string) throws ParseException {
-		final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ENGLISH);
-		//final Date parsedDate = dateFormat.parse(string);
+		final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 		return dateFormat.parse(string);
+	}
+
+	public static void addEventsFromXml(Node nNode, List<Event> events, Element eElement)
+			throws DOMException, ParseException {
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			if (eElement.getElementsByTagName("DTEND").item(0).getTextContent() != null)
+				event.setEndDate(dateParse(eElement.getElementsByTagName("DTEND").item(0).getTextContent()));
+			else event.setEndDate(null);
+			event.setDescription(eElement.getElementsByTagName("DESCRIPTION").item(0).getTextContent());
+			event.setTitle(eElement.getElementsByTagName("SUMMARY").item(0).getTextContent());
+			event.setEndDate(dateParse(eElement.getElementsByTagName("DTEND").item(0).getTextContent()));
+			event.setStartDate(dateParse(eElement.getElementsByTagName("DTSTART").item(0).getTextContent()));
+			events.add(event);
+		}
+
 	}
 
 	/**
@@ -102,4 +114,5 @@ public class XmlParser {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Problem z plikiem"));
 	}
+
 }
