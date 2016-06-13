@@ -24,9 +24,9 @@ public class ParserUz {
 	private String grupa;
 	private String typTygodnia;
 	private String dzien;
-	private Event event;
-	private List<Event> events;
 
+
+	
 	public ArrayList<Zajecia> listaZajec = new ArrayList<Zajecia>();
 
 	public ParserUz(String url) {
@@ -34,6 +34,8 @@ public class ParserUz {
 		connection(url);
 		parse();
 
+	}
+	public ParserUz() {
 	}
 
 	public void connection(String url) {

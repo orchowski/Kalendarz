@@ -1,5 +1,7 @@
 package parserUZ;
 
+import klasy.Event;
+
 public class Zajecia {
 
 	String nauczyciel;
@@ -73,7 +75,11 @@ public class Zajecia {
 	public final void setDzien(String dzien) {
 		this.dzien = dzien;
 	}
-	
+	public Event toEventConvert(){
+		Event ev=new Event(nazwaZajec,);
+		return ev;
+		
+	}
 
 	
 	
