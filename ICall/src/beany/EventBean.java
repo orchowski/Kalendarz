@@ -159,11 +159,10 @@ public class EventBean implements Serializable {
 				// metoda Przemka
 				// addEvents(xmlParser.parseXml()
 				// powinno to zadziałac, ale nie jestem pewien w 100%
-				//File tempFile = new File("var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/tempfile.xml");
+				//File tempFile = new File("/var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/tempfile.xml");
 				File tempFile = new File("D:/tempfile.xml");
 				try (PrintWriter out = new PrintWriter(tempFile)) {
-					out.println(pliczek);
-					
+					out.println(pliczek.toUpperCase());
 				}
 				addEvents(XmlParser.parseXml(tempFile));
 			//	 to co masz u gory powinno załatwic sprawe 
