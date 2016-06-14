@@ -35,18 +35,20 @@ import klasy.Event;
 @SessionScoped
 public class XmlParser {
 	/** The event. */
-	private transient static Event event = new Event();
+	
 
 	/**
 	 * Parses the xml.
 	 *
+	 * @param file
+	 *            the file
 	 * @return the list
 	 * @throws SAXException
 	 *             the SAX exception
-	 * @throws ParseException
 	 * @throws DOMException
-	 * @throws Exception
-	 *             the exception
+	 *             the DOM exception
+	 * @throws ParseException
+	 *             the parse exception
 	 */
 	public static final List<Event> parseXml(final File file) throws SAXException, DOMException, ParseException {
 		final List<Event> events = new ArrayList<Event>();
@@ -63,8 +65,8 @@ public class XmlParser {
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				}
 				Element eElement = (Element) nNode;
-					addEventsFromXml(nNode, events, eElement);
-				
+				addEventsFromXml(nNode, events, eElement);
+
 			}
 		} catch (ParserConfigurationException e) {
 			info();
@@ -72,8 +74,15 @@ public class XmlParser {
 			info();
 		}
 		return events;
+		
 	}
 
+	/**
+	 * Normalize.
+	 *
+	 * @param doc
+	 *            the doc
+	 */
 	private static void normalize(Document doc) {
 		doc.normalize();
 	}
@@ -92,12 +101,29 @@ public class XmlParser {
 		return dateFormat.parse(string);
 	}
 
+	/**
+	 * Adds the events from xml.
+	 *
+	 * @param nNode
+	 *            the n node
+	 * @param events
+	 *            the events
+	 * @param eElement
+	 *            the e element
+	 * @throws DOMException
+	 *             the DOM exception
+	 * @throws ParseException
+	 *             the parse exception
+	 */
 	public static void addEventsFromXml(Node nNode, List<Event> events, Element eElement)
+		
 			throws DOMException, ParseException {
+		 final Event event = new Event();
 		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 			if (eElement.getElementsByTagName("DTEND").item(0).getTextContent() != null)
 				event.setEndDate(dateParse(eElement.getElementsByTagName("DTEND").item(0).getTextContent()));
-			else event.setEndDate(null);
+			else
+				event.setEndDate(null);
 			event.setDescription(eElement.getElementsByTagName("DESCRIPTION").item(0).getTextContent());
 			event.setTitle(eElement.getElementsByTagName("SUMMARY").item(0).getTextContent());
 			event.setEndDate(dateParse(eElement.getElementsByTagName("DTEND").item(0).getTextContent()));
