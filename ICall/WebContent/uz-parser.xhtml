@@ -1,40 +1,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
 
-    <!-- @Author Aleksander Orchowski -->
+<!-- @Author Aleksander Orchowski, Sebastian Podgorski -->
 
-    <h:head>
-        <title>Parser-UZ</title>
-    </h:head>
-    <h:body>
+<h:head>
+	<title>Parser-UzSITE</title>
+</h:head>
+<h:body style="background: url(http://skroc.pl/TLOXD)" background-image="repeat-y">
 
+	<p:growl id="messg" showDetail="false" sticky="true" />
+	<center>
+		<p:panel header="Podaj adres strony:" style="width:400px">
+			<h:form>
+				<p:inputText id="mesg" value="#{eventBean.url}" required="true" />
+				<br />
+				<p:commandButton value="PolaczUZ" action="#{eventBean.addUZ()}" update="messg" />
 
-
-
-
-        
-        <p:growl id="mesg" showDetail="false" sticky="true" /> 
-
-            <p:panel header="Podaj adres strony:"  style="width:400px">
-                <h:form>
-
-                    <p:inputText id="msg" value="#{uzParse.msg}" required="true" />  
-                    <p:commandButton value="Połącz" actionListener="#{uzParse.connectAndParse}" update="mesg" > 
-                       <f:actionListener binding="#{uzParse.setEvents(eventBean.getEvents())}" />
-                    </p:commandButton>
-
-                </h:form>   
-                </p:panel> 
-     
-        <h:form><p:commandButton value="Wróć do kalendarza" action="#{uzParse.returnIndex}"/></h:form>
-
-
-
-
-    </h:body>
+			</h:form>
+		</p:panel>
+		<br />
+		<br />
+		<br />
+		<h:form>
+			<p:commandButton value="Wróć do kalendarza"
+				action="#{htmlParse.returnIndex}" />
+		</h:form>
+	</center>
+</h:body>
 </html>

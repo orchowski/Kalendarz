@@ -10,17 +10,17 @@
 
 <h:head>
 </h:head>
-<h:body>
+<h:body  style="background: url(http://skroc.pl/TLOXD)">
 
 	<fieldset>
-		<h:form id="adding">
+		<h:form>
 			<legend>Generator</legend>
 
 			<p:messages id="messages" showDetail="true" autoUpdate="true"
 				closable="true" />
-			<h:commandButton id="new" value="NEW" type="button"
-				styleClass="ui-mini" onclick="PF('dlg').show();" title="New Event" />
-			<h:commandButton value="CLEAR" action="#{eventBean.clear()}" />
+			<p:commandButton id="new" value="NEW" type="button"
+				styleClass="ui-mini" onclick="PF('dlg').show();" title="New Event" ajax="false" />
+			<p:commandButton value="CLEAR" action="#{eventBean.clear()}" ajax="false" />
 
 
 			<p:commandButton id="sDownload" value="Download" type="button"
@@ -31,49 +31,50 @@
 
 			<p:dialog header="New Event" widgetVar="dlg" resizable="false"
 				dynamic="true">
+				<h:panelGrid columns="2" cellpadding="5" styleClass="ui-grid">
+					<p:outputLabel for="title" value="Title:">			
+					</p:outputLabel><p:inputText id="title" value="#{eventBean.event.title}"
+							required="true" />
+					
 
-				<p:outputLabel for="title" value="Title:">
-					<p:inputText id="title" value="#{eventBean.event.title}"
-						required="true" />
-				</p:outputLabel>
-				<br />
+					<p:outputLabel for="description" value="Description:">
+						
+					</p:outputLabel><p:inputText id="description"
+							value="#{eventBean.event.description}" maxlength="200" />
+			
 
-				<p:outputLabel for="description" value="Description:">
-					<p:inputText id="description"
-						value="#{eventBean.event.description}" maxlength="200" />
-				</p:outputLabel>
-				<br />
-
-				<p:outputLabel for="startDate" value="Start datetime:">
+					<p:outputLabel for="startDate" value="Start datetime:">
+						
+					</p:outputLabel>
 					<p:calendar id="startDate" value="#{eventBean.event.startDate}"
-						pattern="dd/MM/yyyy HH:mm" required="true"
-						maxdate="#{eventBean.event.endDate}">
-						<p:ajax event="dateSelect" update="endDate"></p:ajax>
+							pattern="dd/MM/yyyy HH:mm" required="true"
+							maxdate="#{eventBean.event.endDate}">
+							<p:ajax event="dateSelect" update="endDate"></p:ajax>
 
 
-					</p:calendar>
-				</p:outputLabel>
-				<br />
+						</p:calendar>
+				
 
-				<p:outputLabel for="endDate" value="End datetime:">
-					<p:calendar id="endDate" value="#{eventBean.event.endDate}"
-						pattern="dd/MM/yyyy HH:mm" required="true"
-						mindate="#{eventBean.event.startDate}">
-						<p:ajax event="dateSelect" update="startDate"></p:ajax>
+					<p:outputLabel for="endDate" value="End datetime:">
+					
+					</p:outputLabel>
+						<p:calendar id="endDate" value="#{eventBean.event.endDate}"
+							pattern="dd/MM/yyyy HH:mm" required="true"
+							mindate="#{eventBean.event.startDate}">
+							<p:ajax event="dateSelect" update="startDate"></p:ajax>
 
-					</p:calendar>
-				</p:outputLabel>
-				<br />
+						</p:calendar>
+				
 
-				<h:commandButton action="#{eventBean.add()}" value="Add event">
-					<!--  	<p:ajax update="viewing" /> -->
-				</h:commandButton>
-
+					<p:commandButton action="#{eventBean.add()}" value="Add event" ajax="false" >
+						<!--  	<p:ajax update="viewing" /> -->
+					</p:commandButton>
+				</h:panelGrid>
 			</p:dialog>
 		</h:form>
 		<h:form id="opening" enctype="multipart/form-data">
 			<p>
-				<h:commandButton value="OPEN" action="#{eventBean.upload}"
+				<p:commandButton value="OPEN" action="#{eventBean.upload}"
 					ajax="false" />
 				<h:inputFile id="file" value="#{eventBean.file1}"
 					validator="#{eventBean.validateFile}" required="true" />
@@ -168,6 +169,9 @@
 			<p:dialog header="Parse" widgetVar="parsery" resizable="false"
 				modal="true" dynamic="true">
 				<p:commandButton value="HTML" action="html-parser"
+					style="float:right;" icon="ui-icon-plusthick
+ " ajax="false" />
+				<p:commandButton value="UzSITE" action="uz-parser"
 					style="float:right;" icon="ui-icon-plusthick
  " ajax="false" />
 			</p:dialog>

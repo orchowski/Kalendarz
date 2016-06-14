@@ -1,4 +1,4 @@
-package beany;
+﻿package beany;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,6 +32,7 @@ import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.component.CalendarComponent;
+import parserUZ.ParserUz;
 
 /**
  * The Class EventBean.
@@ -50,6 +51,16 @@ public class EventBean implements Serializable {
 	private static CalendarBuilder builder = new CalendarBuilder();
 	String pliczek = null;
 	StringReader sin = null;
+	String url;
+	ParserUz uz = new ParserUz();
+	public final String getUrl() {
+		return url;
+	}
+
+	public final void setUrl(String url) {
+		this.url = url;
+	}
+
 	// private static final String ValidationPattern =
 	// "([^\\s]+(\\.(?i)(ics))$)";
 	// private Pattern pattern;
@@ -79,6 +90,22 @@ public class EventBean implements Serializable {
 		events = new ArrayList<Event>();
 	}
 
+	public void addUZ() {
+		FacesContext context = FacesContext.getCurrentInstance();
+       
+		uz.connection(url);
+		 context.addMessage(null, new FacesMessage("Łączenie..."));
+		uz.parse();
+		 context.addMessage(null, new FacesMessage("Parsowanie..."));
+		for(int i=0; i<uz.getListaZajec().size(); i++){
+			events.add(uz.getListaZajec().get(i));
+		}
+		 context.addMessage(null, new FacesMessage("Zakończono pomyślnie!"));
+	
+		//clearEvent();
+	}
+
+	
 	/**
 	 * Adds the event.
 	 */
@@ -159,18 +186,16 @@ public class EventBean implements Serializable {
 				// metoda Przemka
 				// addEvents(xmlParser.parseXml()
 				// powinno to zadziałac, ale nie jestem pewien w 100%
-				//File tempFile = new File("/var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/tempfile.xml");
-				File tempFile = new File("D:/tempfile.xml");
+				File tempFile = new File("/var/lib/openshift/57337cba0c1e66d8d9000088/wildfly/ics/tempfile.xml");
+				//File tempFile = new File("D:/tempfile.xml");
 				try (PrintWriter out = new PrintWriter(tempFile)) {
 					out.println(pliczek.toUpperCase());
 				}
 				addEvents(XmlParser.parseXml(tempFile));
 			//	 to co masz u gory powinno załatwic sprawe 
 			} else {
-				if ("text/calendar".equals(file1.getContentType())) {
 					sin = new StringReader(pliczek);
 					open();
-				}
 			}
 		} catch (IOException e) {
 			// Error handling
@@ -180,14 +205,6 @@ public class EventBean implements Serializable {
 	public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
 		List<FacesMessage> msgs = new ArrayList<FacesMessage>();
 		Part file = (Part) value;
-		// if (file.getSize() > 1024) {
-		// msgs.add(new FacesMessage("file too big"));
-		// }
-		if ("text/calendar".equals(file.getContentType())) {
-			if (!"text/xml".equals(file.getContentType())) {
-				msgs.add(new FacesMessage("To nie jest plik iCal, lub xml"));
-			}
-		}
 		if (!msgs.isEmpty()) {
 			throw new ValidatorException(msgs);
 		}

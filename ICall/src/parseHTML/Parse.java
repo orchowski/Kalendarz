@@ -133,7 +133,7 @@ public class Parse {
 			return ("Zly format tabeli. Musi miec tyle samo komorek w kazdym wierszu");
 		}
 		System.out.println(tmp);
-                return msg+"\nZakoÅ„czono";
+                return msg+"\nZakoñczono";
 	}
 
 	
