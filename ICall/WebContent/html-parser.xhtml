@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- @Author Aleksander Orchowski -->
+
+    <h:head>
+        <title>Parser-HTML-TABLE</title>
+    </h:head>
+    <h:body>
+
+
+
+
+
+        
+        <p:growl id="mesg" showDetail="false" sticky="true" /> 
+        <center>
+            <p:panel header="Podaj adres strony:"  style="width:400px">
+                <h:form>
+
+                    <p:inputText id="msg" value="#{htmlParse.msg}" required="true" />  
+                    <p:commandButton value="Połącz" actionListener="#{htmlParse.connect}" update="tables mesg" > 
+                       <f:actionListener binding="#{htmlParse.setEvents(eventBean.getEvents())}" />
+                    </p:commandButton>
+
+                </h:form>    
+            </p:panel>
+            <br/><br/><br/>
+
+
+
+            <p:carousel id="tables" value="#{htmlParse.tables}" var="table" itemStyle="height:50%;text-align:center" numVisible="1" easing="easeOutBounce" style="width:50%" >
+                <center>
+                    <h:outputText value="Tabela nr. #{table.index+1}" escape="false" />
+                    <hr />
+                    <h:outputText value="#{table.content}" escape="false" />
+                    <h:form> <p:commandButton value="Parse" action="#{htmlParse.selectTable(table.index)}" onclick="PF('dlg').show();" update="mesg cols"/>
+                    </h:form>   </center>       
+
+            </p:carousel>  
+        </center>
+
+
+
+        <p:dialog header="Wybierz kolumny" widgetVar="dlg" resizable="false"
+                  modal="true" dynamic="true">
+            <h:outputLabel value="Podaj funkcje kolumn od 0 do #{htmlParse.cols-1}(patrz od lewej strony)" id="cols"/>
+            <h:form>
+                <h:panelGrid columns="2" cellpadding="5" styleClass="ui-grid" id="spinery">
+
+                    <h:outputLabel for="title" value="Tytuł: " />
+                    <p:spinner id="title" value="#{htmlParse.title}"  prefix="kolumna nr." min="0" max=" #{htmlParse.cols-1}"/>
+
+
+                    <h:outputLabel for="dateS" value="Data Startowa: " />
+                    <p:spinner id="dateS" value="#{htmlParse.dateS}" prefix="kolumna nr." min="0" max=" #{htmlParse.cols-1}"/>
+
+
+                    <h:outputLabel for="dateE" value="Data Końcowa: " />
+                    <p:spinner id="dateE" value="#{htmlParse.dateE}" prefix="kolumna nr." min="0" max=" #{htmlParse.cols-1}"/>
+
+
+                    <h:outputLabel for="desc" value="Opis:  " />
+                    <p:spinner id="desc" value="#{htmlParse.desc}" prefix="kolumna nr."  min="0" max=" #{htmlParse.cols-1}"/>
+
+                    <h:form>
+                        <p:commandButton value="Parsuj" action="#{htmlParse.parseEvents}" update="mesg">
+
+
+                        </p:commandButton>
+                    </h:form>
+
+                </h:panelGrid> 
+            </h:form>
+
+        </p:dialog>
+        <h:form><p:commandButton value="Wróć do kalendarza" action="#{htmlParse.returnIndex}"/></h:form>
+
+
+
+
+    </h:body>
+</html>
